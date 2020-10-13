@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: hello-kubernetes-custom-{{ .Values.version }}
   labels:
-    app: hello-kubernetes-custom-{{ .Values.version }}
+    app: hello-kubernetes-custom
     version: {{.Values.version }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-kubernetes-custom-{{ .Values.version }}
+      app: hello-kubernetes-custom
       version: {{.Values.version }}
   template:
     metadata:
       labels:
-        app: hello-kubernetes-custom-{{ .Values.version }}
+        app: hello-kubernetes-custom
         version: {{.Values.version }}
     spec:
       containers:
