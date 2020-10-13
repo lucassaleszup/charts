@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: bookinfo-ratings
+  name: {{ .Values.appName }}
 spec:
-  host: {{ .Values.applicationName }}
+  host: {{ .Values.appName }}
   subsets:
   {{ range $i, $var := .Values.appEntries -}}
   - name: {{ $var.value  }}
