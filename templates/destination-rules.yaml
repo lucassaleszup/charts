@@ -10,3 +10,6 @@ spec:
     labels:
         version: {{ $var.name }}
   {{ end }}
+  - name: {{ .Values.defaultVersion.value}}
+    labels:
+        version: {{ .Values.defaultVersion.name }}
