@@ -1,0 +1,15 @@
+appName: teste
+virtualHost: https://test.com.br
+virtualPrefix: /test
+virtualGateway: istio-gateway
+appEntries:
+    - name: version-v1
+      value: v1
+      circleId: 1234-567-890
+    - name: version-v2
+      value: v2
+      circleId: 1234-567-891
+defaultVersion:
+    name: version-v3
+    value: v3
+    circleId: 1234-567-892

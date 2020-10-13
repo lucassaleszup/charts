@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  host: {{ .Values.appName }}
+  subsets:
+  {{ range $i, $var := .Values.appEntries -}}
+  - name: {{ $var.value  }}
+    labels:
+        version: {{ $var.name }}
+  {{ end }}
+  - name: {{ .Values.defaultVersion.value}}
+    labels:
+        version: {{ .Values.defaultVersion.name }}
