@@ -1,10 +1,14 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: {{ .Values.appName }}
+  name: {{ .Values.componentName }}
 spec:
+  {{ if .Values.virtualGateway }}
+  gateways:
+  - {{ .Values.virtualGateway }}
+  {{ end }}
   hosts:
-  - {{ .Values.appName }}
+  - {{ .Values.hostName }}
   http:
   {{ range $i, $var := .Values.appEntries -}}
   - match:
@@ -13,10 +17,39 @@ spec:
             exact: {{ $var.circleId}}
     route:
     - destination:
-        host: {{ $.Values.appName }}
-        subset: {{ $var.value }}
+        host: {{ $var.componentName }}
+        subset: {{ $var.circleId }}
+      headers:
+        request:
+          set:
+            x-circle-source: {{ $var.circleId }}
+        response:
+          set:
+            x-circle-source: {{ $var.circleId }}
+  - match:
+    - headers:
+        cookie:
+          regex: .*x-circle-id={{ $var.circleId}}.*
+    route:
+    - destination:
+        host: {{ $var.componentName }}
+        subset: {{ $var.circleId }}
+      headers:
+        request:
+          set:
+            x-circle-source: {{ $var.circleId }}
+        response:
+          set:
+            x-circle-source: {{ $var.circleId }}
   {{ end }}
   - route:
     - destination:
-        host: {{ .Values.appName }}
-        subset: {{ .Values.defaultVersion.value }}
+        host: {{ .Values.componentName }}
+        subset: {{ .Values.defaultVersion.circleId }}
+      headers:
+        request:
+          set:
+            x-circle-source: {{ .Values.defaultVersion.circleId }}
+        response:
+          set:
+            x-circle-source: {{ .Values.defaultVersion.circleId }}

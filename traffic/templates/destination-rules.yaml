@@ -1,15 +1,19 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: {{ .Values.appName }}
+  name: {{ .Values.componentName }}
 spec:
-  host: {{ .Values.appName }}
+  host: {{ .Values.componentName }}
   subsets:
   {{ range $i, $var := .Values.appEntries -}}
-  - name: {{ $var.value  }}
+  - name: {{ $var.circleId  }}
     labels:
-        version: {{ $var.name }}
+      circleId: {{ $var.circleId }}
+      component: {{ $var.componentName }}
+      tag: {{ $var.imageTag }}
   {{ end }}
-  - name: {{ .Values.defaultVersion.value}}
+  - name: {{ .Values.defaultVersion.circleId}}
     labels:
-        version: {{ .Values.defaultVersion.name }}
+      circleId: {{ .Values.defaultVersion.circleId }}
+      component: {{ .Values.defaultVersion.componentName }}
+      tag: {{ .Values.defaultVersion.imageTag }}
