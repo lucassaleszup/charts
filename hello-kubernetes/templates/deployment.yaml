@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-kubernetes-custom-{{ .Values.version }}
+  name: {{ .Release.Name}}
   labels:
-    app: hello-kubernetes-custom
+    app: {{ .Values.component }}
     version: {{.Values.version }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-kubernetes-custom
+      app: {{ .Values.component }}
       version: {{.Values.version }}
   template:
     metadata:
       labels:
-        app: hello-kubernetes-custom
+        app: {{ .Values.component }}
         version: {{.Values.version }}
     spec:
       containers:
-      - name: hello-kubernetes
+      - name: {{ .Values.component }}
         image: paulbouwer/hello-kubernetes:1.8
         ports:
         - containerPort: 8080
