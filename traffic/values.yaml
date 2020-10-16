@@ -1,11 +1,8 @@
 componentName: example-app
 hostName: test.com.br
 virtualPrefix: /test
-virtualGateway: 
+virtualGateway: ""
 appEntries:
-    - componentName: version-v1
-      imageTag: v1
-      circleId: 1234-567-890
     - componentName: version-v1
       imageTag: v1
       circleId: 1234-567-890
